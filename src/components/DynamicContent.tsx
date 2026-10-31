@@ -3,7 +3,13 @@ import { useAppConfig } from "@/config/hooks";
 import { useIsMobile } from "@/hooks/useMobile";
 import { useTheme } from "@/hooks/useTheme";
 
-export function DynamicContent({ children }: { children: ReactNode }) {
+export function DynamicContent({
+  children,
+  noFade = false,
+}: {
+  children: ReactNode;
+  noFade?: boolean;
+}) {
   const config = useAppConfig();
   const isMobile = useIsMobile();
   const { appearance } = useTheme();
@@ -92,7 +98,7 @@ export function DynamicContent({ children }: { children: ReactNode }) {
   return (
     <>
       <style>{dynamicStyles}</style>
-      <div className="fade-in">{children}</div>
+      <div className={noFade ? "" : "fade-in"}>{children}</div>
     </>
   );
 }

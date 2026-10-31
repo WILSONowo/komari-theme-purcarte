@@ -29,6 +29,7 @@ const HomePage = lazy(() => import("@/pages/Home"));
 const InstancePage = lazy(() => import("@/pages/instance"));
 const NotFoundPage = lazy(() => import("@/pages/NotFound"));
 const PrivatePage = lazy(() => import("@/pages/Private"));
+const LoginPage = lazy(() => import("@/pages/Login"));
 
 const homeScrollState = {
   position: 0,
@@ -214,6 +215,7 @@ export const AppContent = () => {
   const [footerHeight, setFooterHeight] = useState(0);
   const headerRef = useRef<HTMLElement | null>(null);
   const [headerHeight, setHeaderHeight] = useState(0);
+  const location = useLocation();
 
   useEffect(() => {
     const header = headerRef.current;
@@ -266,7 +268,12 @@ export const AppContent = () => {
       scaling="110%"
       style={{ backgroundColor: "transparent" }}>
       <Toaster />
-      <DynamicContent>
+      <DynamicContent noFade={location.pathname === "/login"}>
+        {location.pathname === "/login" ? (
+          <Suspense fallback={<Loading />}>
+            <LoginPage />
+          </Suspense>
+        ) : (
         <div
           className={`grid h-dvh transition-all duration-300 ${
             isSettingsOpen && !isMobile
@@ -312,6 +319,7 @@ export const AppContent = () => {
             onClose={() => setIsSettingsOpen(false)}
           />
         </div>
+        )}
       </DynamicContent>
     </Theme>
   );

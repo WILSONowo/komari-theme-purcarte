@@ -173,16 +173,20 @@ const ThemeSwitcher = ({ isMobile }: { isMobile?: boolean }) => {
 
 const AdminButton = ({ isMobile }: { isMobile?: boolean }) => {
   const { t } = useLocale();
-  const { enableAdminButton } = useAppConfig();
-
+  const { enableAdminButton, siteStatus } = useAppConfig();
   if (!enableAdminButton) return null;
+
+  const isLoggedIn =
+    siteStatus === "authenticated" || siteStatus === "private-authenticated";
+  const target = isLoggedIn ? "/admin" : "/login";
+  const linkTarget = isLoggedIn ? "_blank" : "_self";
 
   if (isMobile) {
     return (
       <DropdownMenuItem asChild>
         <a
-          href="/admin"
-          target="_blank"
+          href={target}
+          target={linkTarget}
           rel="noopener noreferrer"
           className="flex items-center">
           <CircleUserIcon className="size-4 mr-2 text-primary" />
@@ -193,7 +197,7 @@ const AdminButton = ({ isMobile }: { isMobile?: boolean }) => {
   }
 
   return (
-    <a href="/admin" target="_blank" rel="noopener noreferrer">
+    <a href={target} target={linkTarget} rel="noopener noreferrer">
       <Button variant="ghost" size="icon">
         <CircleUserIcon className="size-5 text-primary" />
       </Button>
