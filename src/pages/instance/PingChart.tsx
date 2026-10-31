@@ -1,4 +1,4 @@
-import { memo, useState, useMemo, useEffect } from "react";
+import { memo, useState, useMemo, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/useMobile";
 import { Eye, EyeOff, ArrowRightToLine, RefreshCw } from "lucide-react";
@@ -25,7 +25,7 @@ import {
   interpolateNullsLinear,
 } from "@/utils/RecordHelper";
 import { useAppConfig } from "@/config";
-import { CustomTooltip } from "@/components/ui/tooltip";
+import { PingTooltip } from "./PingTooltip";
 import Tips from "@/components/ui/tips";
 import { generateColor, lableFormatter } from "@/utils/chartHelper";
 import { useLocale } from "@/config/hooks";
@@ -36,6 +36,7 @@ interface PingChartProps {
 }
 
 const PingChart = memo(({ node, hours }: PingChartProps) => {
+  const chartHostRef = useRef<HTMLDivElement>(null);
   const { enableConnectBreaks, pingChartMaxPoints } = useAppConfig();
   const { loading, error, pingHistory } = usePingChart(node, hours);
   const [visiblePingTasks, setVisiblePingTasks] = useState<number[]>([]);
@@ -254,7 +255,7 @@ const PingChart = memo(({ node, hours }: PingChartProps) => {
   }, [pingHistory?.records, sortedTasks, timeRange]);
 
   return (
-    <div className="relative space-y-4 h-full flex flex-col min-h-114">
+    <div ref={chartHostRef} className="relative space-y-4 h-full flex flex-col min-h-114">
       {loading && (
         <div className="absolute inset-0 flex items-center justify-center purcarte-blur rounded-lg z-10">
           <Loading text={t("chart.loadingData")} />
@@ -448,7 +449,8 @@ const PingChart = memo(({ node, hours }: PingChartProps) => {
                 <Tooltip
                   cursor={false}
                   content={
-                    <CustomTooltip
+                    <PingTooltip
+                      chartHostRef={chartHostRef}
                       labelFormatter={(value) => lableFormatter(value, hours)}
                     />
                   }
