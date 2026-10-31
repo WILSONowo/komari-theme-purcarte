@@ -28,6 +28,7 @@ export interface ConfigOptions {
   enableJsonRPC2Api: boolean; // 是否启用 JSON-RPC2 API 适配
   isShowStatsInHeader: boolean; // 是否在标题栏中显示统计信息
   mergeGroupsWithStats: boolean; // 是否在统计栏中合并分组
+  enableRemainingValue: boolean; // 显示剩余价值统计
   enableStatsBar: boolean; // 是否启用统计栏
   enableSortControl: boolean; // 是否启用排序控制
   isOfflineNodesBehind: boolean; // 是否启用离线节点置后显示
@@ -67,7 +68,7 @@ export const DEFAULT_CONFIG: ConfigOptions = {
   selectedDefaultView: "grid",
   selectedDefaultAppearance: "system",
   statusCardsVisibility:
-    "currentTime:true,currentOnline:true,regionOverview:true,trafficOverview:true,networkSpeed:true",
+    "currentTime:true,currentOnline:true,regionOverview:true,trafficOverview:true,networkSpeed:true,remainingValue:true",
   selectedHeaderStyle: "fixed",
   enableLogo: false,
   logoUrl: "/assets/logo.png",
@@ -79,6 +80,7 @@ export const DEFAULT_CONFIG: ConfigOptions = {
   enableJsonRPC2Api: false,
   isShowStatsInHeader: false,
   mergeGroupsWithStats: false,
+  enableRemainingValue: true,
   enableStatsBar: true,
   enableSortControl: false,
   isOfflineNodesBehind: false,

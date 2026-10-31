@@ -107,6 +107,7 @@ export const useNodeListCommons = (searchTerm: string) => {
 
   const stats = useMemo(() => {
     return {
+      valueNodes: filteredNodes,
       onlineCount: filteredNodes.filter((n) => n.stats?.online).length,
       totalCount: filteredNodes.length,
       uniqueRegions: new Set(filteredNodes.map((n) => n.region)).size,

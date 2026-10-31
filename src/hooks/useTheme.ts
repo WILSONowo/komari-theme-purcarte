@@ -21,6 +21,7 @@ export interface ThemeContextType {
     regionOverview: boolean;
     trafficOverview: boolean;
     networkSpeed: boolean;
+    remainingValue: boolean;
   };
   setStatusCardsVisibility: (
     visibility: Partial<ThemeContextType["statusCardsVisibility"]>
@@ -41,6 +42,7 @@ export const ThemeContext = createContext<ThemeContextType>({
     regionOverview: true,
     trafficOverview: true,
     networkSpeed: true,
+    remainingValue: true,
   },
   setStatusCardsVisibility: () => {},
 });
@@ -165,7 +167,7 @@ export const useThemeManager = () => {
   const [statusCardsVisibility, setStatusCardsVisibility] = useStoredState(
     "statusCardsVisibility",
     (() => {
-      const visibility: { [key: string]: boolean } = {};
+      const visibility: { [key: string]: boolean } = { remainingValue: true };
       defaultstatusCardsVisibility.split(",").forEach((item) => {
         const [key, value] = item.split(":");
         visibility[key] = value === "true";
@@ -194,7 +196,7 @@ export const useThemeManager = () => {
     setColor,
     viewMode,
     setViewMode,
-    statusCardsVisibility,
+    statusCardsVisibility: { ...statusCardsVisibility, remainingValue: typeof statusCardsVisibility.remainingValue === "boolean" ? statusCardsVisibility.remainingValue : !defaultstatusCardsVisibility.split(",").includes("remainingValue:false") },
     setStatusCardsVisibility: handleSetStatusCardsVisibility,
   };
 };

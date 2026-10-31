@@ -1,12 +1,16 @@
+import type { BillingNode } from "@/utils/remainingValue";
+
 export type DisplayOptions = {
   currentTime: boolean;
   currentOnline: boolean;
   regionOverview: boolean;
   trafficOverview: boolean;
   networkSpeed: boolean;
+  remainingValue: boolean;
 };
 
 export type StatsSnapshot = {
+  valueNodes: BillingNode[];
   onlineCount: number;
   totalCount: number;
   uniqueRegions: number;

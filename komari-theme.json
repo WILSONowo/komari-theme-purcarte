@@ -4,7 +4,7 @@
     "description": "A frosted glass theme for Komari",
     "version": "tags:VERSION",
     "author": "Montia & Gemini",
-    "url": "https://github.com/Montia37/Komari-theme-purcarte",
+    "url": "https://github.com/WILSONowo/komari-theme-purcarte",
     "preview": "preview.png",
     "configuration": {
         "type": "managed",
@@ -147,8 +147,8 @@
                 "key": "statusCardsVisibility",
                 "name": "状态卡片显示控制",
                 "type": "string",
-                "default": "currentTime:true,currentOnline:true,regionOverview:true,trafficOverview:true,networkSpeed:true",
-                "help": "控制状态卡片的显示与隐藏，格式为 卡片名称:显示状态（true/false），多个卡片使用逗号分隔，支持的卡片名称包括 currentTime（当前时间）, currentOnline（当前在线）, regionOverview（点亮地区）, trafficOverview（流量概览）, networkSpeed（网络速率）"
+                "default": "currentTime:true,currentOnline:true,regionOverview:true,trafficOverview:true,networkSpeed:true,remainingValue:true",
+                "help": "控制状态卡片的显示与隐藏，格式为 卡片名称:显示状态（true/false），多个卡片使用逗号分隔，支持的卡片名称包括 currentTime（当前时间）, currentOnline（当前在线）, regionOverview（点亮地区）, trafficOverview（流量概览）, networkSpeed（网络速率），remainingValue（剩余价值）。"
             },
             {
                 "name": "标题栏设置",
@@ -248,6 +248,13 @@
                 "type": "switch",
                 "default": true,
                 "help": "启用后默认显示统计栏"
+            },
+            {
+                "key": "enableRemainingValue",
+                "name": "启用价值统计",
+                "type": "switch",
+                "default": true,
+                "help": "卡片显示当前剩余价值；悬浮显示每年、每月支出及剩余价值，统一折算人民币。关闭后所有访客均不显示。"
             },
             {
                 "key": "enableSortControl",

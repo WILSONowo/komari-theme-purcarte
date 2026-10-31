@@ -78,6 +78,7 @@ export const defaultTexts = {
     retry: "重试",
   },
   statsBar: {
+    remainingValue: "剩余价值",
     _: "状态栏",
     currentTime: "当前时间",
     displayOptionsTitle: "状态显示设置",

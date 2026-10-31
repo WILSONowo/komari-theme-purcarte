@@ -8,6 +8,7 @@ import { SortToggleMenu } from "./SortToggleMenu";
 import { StatsToggleMenu } from "./StatsToggleMenu";
 import { useLocale } from "@/config/hooks";
 import type { StatsBarProps, SortKey } from "./types";
+import { RemainingValueChip } from "./RemainingValueChip";
 import { Card } from "@/components/ui/card";
 export type { StatsBarProps };
 
@@ -66,6 +67,7 @@ export const StatsBar = (props: StatsBarProps) => {
     mergeGroupsWithStats,
     enableGroupedBar,
     enableSortControl,
+    enableRemainingValue,
   } = useAppConfig();
   const isMobile = useIsMobile();
   const { t } = useLocale();
@@ -132,7 +134,8 @@ export const StatsBar = (props: StatsBarProps) => {
     return entries;
   }, [displayOptions, loading, stats, isMobile, isShowStatsInHeader, t]);
 
-  const hasVisibleStats = Object.values(displayOptions).some(Boolean);
+  const showValue = enableRemainingValue && displayOptions.remainingValue;
+  const hasVisibleStats = resolvedStats.length > 0 || displayOptions.currentTime || showValue;
 
   if (isShowStatsInHeader && !isMobile) {
     return (
@@ -156,6 +159,7 @@ export const StatsBar = (props: StatsBarProps) => {
               isMobile={isMobile}
             />
           ))}
+          {showValue && <RemainingValueChip nodes={stats.valueNodes} loading={loading} isMobile={isMobile} isInHeader />}
           <StatsToggleMenu
             displayOptions={displayOptions}
             setDisplayOptions={setDisplayOptions}
@@ -177,7 +181,7 @@ export const StatsBar = (props: StatsBarProps) => {
       return "repeat(auto-fit, minmax(100px, 1fr))";
     }
     const visibleCount =
-      resolvedStats.length +
+      resolvedStats.length + (showValue ? 1 : 0) +
       (displayOptions.currentTime ? 1 : 0) +
       (enableGroupedBar && mergeGroupsWithStats ? 1 : 0);
 
@@ -187,11 +191,11 @@ export const StatsBar = (props: StatsBarProps) => {
   return (
     <Card
       className={cn(
-        "relative flex items-center text-primary my-4",
+        "relative flex items-center gap-2 text-primary my-4",
         isMobile ? "text-xs p-2" : "text-sm px-4 min-w-[300px] min-h-[5rem]"
       )}>
       <div
-        className="grid w-full gap-2 text-center items-center py-3"
+        className="grid min-w-0 flex-1 gap-2 text-center items-center py-3"
         style={{
           gridTemplateColumns: getGridTemplateColumns(),
           gridAutoRows: "min-content",
@@ -214,6 +218,7 @@ export const StatsBar = (props: StatsBarProps) => {
             {resolvedStats.map(({ key, ...rest }) => (
               <StatChip key={key} {...rest} isMobile={isMobile} />
             ))}
+            {showValue && <RemainingValueChip nodes={stats.valueNodes} loading={loading} isMobile={isMobile} />}
           </>
         ) : (
           <span className="text-xs text-secondary-foreground">
@@ -221,21 +226,19 @@ export const StatsBar = (props: StatsBarProps) => {
           </span>
         )}
       </div>
-      <div className="absolute right-2 top-2">
+      <div className="flex shrink-0 flex-col gap-2 self-start pt-2">
         <StatsToggleMenu
           displayOptions={displayOptions}
           setDisplayOptions={setDisplayOptions}
         />
-      </div>
-      {enableSortControl && (
-        <div className="absolute right-2">
+        {enableSortControl && (
           <SortToggleMenu
             onSort={handleSort}
             sortKey={sortKey}
             sortDirection={sortDirection}
           />
-        </div>
-      )}
+        )}
+      </div>
     </Card>
   );
 };

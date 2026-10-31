@@ -47,6 +47,7 @@ export const StatsToggleMenu = memo(
                       regionOverview: t("statsBar.region"),
                       trafficOverview: t("statsBar.traffic"),
                       networkSpeed: t("statsBar.networkSpeed"),
+                      remainingValue: t("statsBar.remainingValue"),
                     }[key]
                   }
                 </span>
